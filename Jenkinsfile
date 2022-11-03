@@ -7,7 +7,7 @@ pipeline {
 
     stages {
         stage("Build docker image") {
-            docker.Build repository + ":$BUILD_NUMBER"
+            docker.Build "sousandre/spring-api:$BUILD_NUMBER"
         }
     }
 }
