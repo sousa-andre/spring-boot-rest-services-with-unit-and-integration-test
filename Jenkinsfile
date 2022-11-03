@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        repository "sousandre/spring-api"
+        repository = "sousandre/spring-api"
     }
 
     stages {
