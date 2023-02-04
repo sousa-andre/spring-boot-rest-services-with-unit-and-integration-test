@@ -7,7 +7,11 @@ pipeline {
     }
 
     stages {
-        stage("Checkout ") {
+        stage ("Show vars") {
+            sh 'echo $dockerhub_USR'
+            sh 'echo $dockerhub_PSW'
+        }
+        stage("Checkout") {
             steps {
                 checkout scm
             }
