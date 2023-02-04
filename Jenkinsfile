@@ -21,7 +21,7 @@ pipeline {
 
         stage('Push image') {
             steps {
-                sh "echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin"
+                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
                 sh "docker push sousandre/spring-api:$BUILD_NUMBER"
             }
         }
