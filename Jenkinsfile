@@ -8,10 +8,12 @@ pipeline {
 
     stages {
         stage ("Show vars") {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')])
             steps {
-                sh 'echo $USER'
-                sh 'echo $PASSWORD'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')])
+
+                    sh 'echo $USER'
+                    sh 'echo $PASSWORD'
+                }
             }
         }
         stage("Checkout") {
