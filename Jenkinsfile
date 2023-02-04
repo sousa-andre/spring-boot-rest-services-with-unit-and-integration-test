@@ -8,8 +8,10 @@ pipeline {
 
     stages {
         stage ("Show vars") {
-            sh 'echo $dockerhub_USR'
-            sh 'echo $dockerhub_PSW'
+            steps {
+                sh 'echo $dockerhub_USR'
+                sh 'echo $dockerhub_PSW'
+            }
         }
         stage("Checkout") {
             steps {
