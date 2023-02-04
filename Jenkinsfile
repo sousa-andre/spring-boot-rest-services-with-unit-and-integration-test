@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage ("Show vars") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')])
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
 
                     sh 'echo $USER'
                     sh 'echo $PASSWORD'
