@@ -4,6 +4,7 @@ pipeline {
 
     environment {
         repository = "sousandre/spring-api"
+        git_short_hash = GIT_COMMIT.take(7)
     }
 
     stages {
@@ -15,7 +16,7 @@ pipeline {
 
         stage('Build image') {
             steps {
-                sh "docker build . -t sousandre/spring-api:$BUILD_NUMBER"
+                sh "docker build . -t $repository:$git_short_hash"
             }
         }
 
@@ -23,7 +24,7 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u $USER -p $PASSWORD'
-                    sh "docker push sousandre/spring-api:$BUILD_NUMBER"
+                    sh "docker push $repository:$git_short_hash"
                 }
             }
         }
