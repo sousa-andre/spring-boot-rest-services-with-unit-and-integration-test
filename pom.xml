@@ -46,9 +46,17 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- my dependencies-->
+        <dependency>
+            <groupId>io.github.mjfryc</groupId>
+            <artifactId>mjaron-tinyloki-java</artifactId>
+            <version>0.3.11</version>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
