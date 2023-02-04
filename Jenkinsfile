@@ -22,7 +22,7 @@ pipeline {
         stage('Push image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
-                    sh 'docker login -u USER -p PASSWORD'
+                    sh 'docker login -u $USER -p $PASSWORD'
                     sh "docker push sousandre/spring-api:$BUILD_NUMBER"
                 }
             }
