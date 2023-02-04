@@ -1,16 +1,21 @@
 pipeline {
     agent any
 
+
     environment {
         repository = "sousandre/spring-api"
     }
 
     stages {
-        stage("Build docker image") {
+        stage("Checkout ") {
             steps {
-                script {
-                    docker.Build "sousandre/spring-api:$BUILD_NUMBER"
-                }
+                checkout scm
+            }
+        }
+
+        stage('Build image') {
+            steps {
+                sh "docker build . -t sousandre/spring-api:$BUILD_NUMBER"
             }
         }
     }
