@@ -7,15 +7,6 @@ pipeline {
     }
 
     stages {
-        stage ("Show vars") {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
-
-                    sh 'echo $USER'
-                    sh 'echo $PASSWORD'
-                }
-            }
-        }
         stage("Checkout") {
             steps {
                 checkout scm
@@ -30,8 +21,10 @@ pipeline {
 
         stage('Push image') {
             steps {
-                sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
-                sh "docker push sousandre/spring-api:$BUILD_NUMBER"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+                    sh 'docker login -u USER -p PASSWORD'
+                    sh "docker push sousandre/spring-api:$BUILD_NUMBER"
+                }
             }
         }
     }
