@@ -15,13 +15,9 @@ pipeline {
         }
 
         stage("Run tests") {
-            agent {
-                docker {
-                    image 'maven:3.8.7'
-                }
             }
             steps {
-                sh 'mvn tests'
+                sh 'mvn test'
             }
         }
 
