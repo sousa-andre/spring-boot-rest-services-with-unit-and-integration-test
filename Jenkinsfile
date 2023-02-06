@@ -14,6 +14,17 @@ pipeline {
             }
         }
 
+        stage("Run tests") {
+            agent {
+                docker {
+                    image 'maven:3.8.7'
+                }
+            }
+            steps {
+                sh 'mvn tests'
+            }
+        }
+
         stage('Build image') {
             steps {
                 sh "docker build . -t $repository:$git_short_hash"
@@ -25,6 +36,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u $USER -p $PASSWORD'
                     sh "docker push $repository:$git_short_hash"
+                    sh "docker push $repository:latest"
                 }
             }
         }
