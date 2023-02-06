@@ -15,7 +15,9 @@ pipeline {
         }
 
         stage("Run tests") {
-
+            agent {
+                    docker { image 'maven:3.8.6-openjdk-18' }
+            }
             steps {
                 sh 'mvn test'
             }
