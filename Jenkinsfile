@@ -42,12 +42,13 @@ pipeline {
         stage("Update ArgoCD application") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USER', passwordVariable: 'PASSWORD')])
-                sh "docker run --rm
-                    -e GITHUB_USERNAME=$USER
-                    -e GITHUB_PASSWORD=$PASSWORD
-                    -e KUSTOMIZE_DIR=application/overlays/production
-                    -e IMAGE_TAG=$DOCKER_REPOSITORY:$GIT_SHORT_HASH
-                    -e REPOSITORY_URL=github.com/sousa-andre/spring-boot-rest-services-with-unit-and-integration-test-config sousandre/kustomize-image-updater:latest"
+                sh "docker run --rm \
+                    -e GITHUB_USERNAME=$USER \
+                    -e GITHUB_PASSWORD=$PASSWORD \
+                    -e KUSTOMIZE_DIR=application/overlays/production \
+                    -e IMAGE_TAG=$DOCKER_REPOSITORY:$GIT_SHORT_HASH \
+                    -e REPOSITORY_URL=github.com/sousa-andre/spring-boot-rest-services-with-unit-and-integration-test-config \
+                    sousandre/kustomize-image-updater:latest"
             }
         }
     }
