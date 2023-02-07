@@ -25,7 +25,7 @@ pipeline {
         stage('Build image') {
             steps {
                 sh "docker build -t $DOCKER_REPOSITORY:$GIT_SHORT_HASH ."
-                sh "docker tag $DOCKER_REPOSITORY:$GIT_SHORT_HASH $rOCKER_REPOSITORY:latest"
+                sh "docker tag $DOCKER_REPOSITORY:$GIT_SHORT_HASH $DOCKER_REPOSITORY:latest"
             }
         }
 
