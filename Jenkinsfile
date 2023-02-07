@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        repository = "sousandre/spring-api"
-        git_short_hash = GIT_COMMIT.take(7)
+        DOCKER_REPOSITORY = "sousandre/spring-api"
+        GIT_SHORT_HASH = GIT_COMMIT.take(7)
     }
 
     stages {
@@ -24,8 +24,8 @@ pipeline {
 
         stage('Build image') {
             steps {
-                sh "docker build . -t $repository:$git_short_hash"
-                sh "docker tag $repository:$git_short_hash $repository:latest"
+                sh "docker build . -t $DOCKER_REPOSITORY:$GIT_SHORT_HASH"
+                sh "docker tag $DOCKER_REPOSITORY:$GIT_SHORT_HASH $repository:latest"
             }
         }
 
@@ -33,9 +33,21 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u $USER -p $PASSWORD'
-                    sh "docker push $repository:$git_short_hash"
-                    sh "docker push $repository:latest"
+                    sh "docker push $DOCKER_REPOSITORY:$GIT_SHORT_HASH"
+                    sh "docker push $DOCKER_REPOSITORY:latest"
                 }
+            }
+        }
+
+        stage("Update ArgoCD application") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USER', passwordVariable: 'PASSWORD'])
+                sh "docker run --rm
+                    -e GITHUB_USERNAME=$USER
+                    -e GITHUB_PASSWORD=$PASSWORD
+                    -e KUSTOMIZE_DIR=application/overlays/production
+                    -e IMAGE_TAG=$DOCKER_REPOSITORY:$GIT_SHORT_HASH
+                    -e REPOSITORY_URL=github.com/sousa-andre/spring-boot-rest-services-with-unit-and-integration-test-config sousandre/kustomize-image-updater:latest"
             }
         }
     }
