@@ -60,5 +60,4 @@ public class StudentController {
         return ResponseEntity.created(location)
                 .build();
     }
-
 }
