@@ -1,7 +1,6 @@
 pipeline {
     agent any
 
-
     environment {
         repository = "sousandre/spring-api"
         git_short_hash = GIT_COMMIT.take(7)
@@ -16,7 +15,7 @@ pipeline {
 
         stage("Run tests") {
             agent {
-                    docker { image 'maven:3.8.6-openjdk-18' }
+                docker { image 'maven:3.8.6-openjdk-18' }
             }
             steps {
                 sh 'mvn test'
@@ -26,6 +25,7 @@ pipeline {
         stage('Build image') {
             steps {
                 sh "docker build . -t $repository:$git_short_hash"
+                sh "docker tag $repository:$git_short_hash $repository:latest"
             }
         }
 
