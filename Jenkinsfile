@@ -41,7 +41,7 @@ pipeline {
 
         stage("Update ArgoCD application") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USER', passwordVariable: 'PASSWORD'])
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'USER', passwordVariable: 'PASSWORD')])
                 sh "docker run --rm
                     -e GITHUB_USERNAME=$USER
                     -e GITHUB_PASSWORD=$PASSWORD
