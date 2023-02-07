@@ -46,7 +46,8 @@ pipeline {
                         -e GITHUB_USERNAME=$USER \
                         -e GITHUB_PASSWORD=$PASSWORD \
                         -e KUSTOMIZE_DIR=application/overlays/production \
-                        -e IMAGE_TAG=$DOCKER_REPOSITORY:$GIT_SHORT_HASH \
+                        -e IMAGE_TAG=$GIT_SHORT_HASH \
+                        -e IMAGE_NAME=$DOCKER_REPOSITORY \
                         -e REPOSITORY_URL=github.com/sousa-andre/spring-boot-rest-services-with-unit-and-integration-test-config \
                         sousandre/kustomize-image-updater:latest"
                 }
